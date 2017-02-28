@@ -1,6 +1,7 @@
-#include <iostream.h>
+#include <iostream>
+#include "classes/Tetromino.h"
 
-using namespace std
+using namespace std;
 
 int main(void)
 {
