@@ -31,5 +31,5 @@
 #Vim files
 *.swp
 *.swo
-*.~
+*~
 .*.un~
