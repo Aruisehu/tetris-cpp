@@ -27,9 +27,3 @@
 *.exe
 *.out
 *.app
-
-#Vim files
-*.swp
-*.swo
-*.~
-.*.un~
