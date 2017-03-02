@@ -3,12 +3,10 @@
 cd classes/
 files=($(ls | grep .cpp$))
 elements=${#files[@]}
-string="g++"
+listfiles="g++"
 cd ..
-
 for (( i=0;i<$elements;i++)); do
-    
-    listfiles="$string classes/${files[${i}]}"
+    listfiles="$listfiles classes/${files[${i}]}"
 done
 
 command="$listfiles main.cpp -Wmultichar -o tetris"
