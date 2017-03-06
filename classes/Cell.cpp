@@ -2,9 +2,9 @@
 #include "Cell.h"
 
 Cell::Cell(const int& i, const int& j) :
-  x(i), y(j)
+    x(i), y(j)
 {
-  vacant = true;
+    vacant = true;
 }
 
 int Cell::get_x() { return x; }
@@ -15,6 +15,6 @@ void Cell::empty() { vacant = true; }
 
 void Cell::show()
 {
-  std::string c = Cell::is_empty() ? " " : "\u2588";
-  std::cout << c;
+    std::string c = Cell::is_empty() ? " " : "\u2588";
+    std::cout << c;
 }

@@ -5,14 +5,14 @@
 
 class Tetromino
 {
-  public:
-    Tetromino();
-    void rotate();
-    void fall(const int& fall_rate); 
-    void move(const int& dir);
+    public:
+        Tetromino();
+        void rotate();
+        void fall(const int& fall_rate); 
+        void move(const int& dir);
 
-  private:
-    Cell* cases;
+    private:
+        Cell* cases;
 };
 
 #endif
