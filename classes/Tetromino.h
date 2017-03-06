@@ -2,6 +2,7 @@
 #define TETROMINO_H
 
 #include "Cell.h"
+
 class Tetromino
 {
   public:

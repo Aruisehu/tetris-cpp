@@ -11,10 +11,10 @@ class Game
   public:
     Game();
     void show();
-    bool line_filled();
+    bool line_filled(const int& row);
     void empty_line();
-    void generate();
-    void next_tetromino();
+    void generate(); // Generate next Tetromino
+    void next_tetromino(); // Put next tetromino in current
 
   private:
     void drop(); //Use to make the line fall after a line is completed. To use in empty_line()
