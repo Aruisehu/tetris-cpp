@@ -3,21 +3,23 @@
 #include "Cell.h"
 #include "Tetromino.h"
 //Define preprocessor constants can be used in Game.cpp
-#define ROWS 22 
+#define ROWS 22
 #define COLUMNS 10
 
 class Game
 {
     public:
         Game();
+        static void play();
         void show();
         bool line_filled(const int& row);
-        void empty_line();
+        void empty_line(const int& row);
+        void empty_lines();
         void generate(); // Generate next Tetromino
         void next_tetromino(); // Put next tetromino in current
 
     private:
-        void drop(); //Use to make the line fall after a line is completed. To use in empty_line()
+        void drop(const int& row); //Use to make the line fall after a line is completed. To use in empty_line()
         int score;
         Cell*** cases;
         Tetromino* current;

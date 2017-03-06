@@ -8,8 +8,9 @@ class Tetromino
     public:
         Tetromino();
         void rotate();
-        void fall(const int& fall_rate); 
+        void fall(const int& fall_rate);
         void move(const int& dir);
+        static Tetromino* random();
 
     private:
         Cell* cases;

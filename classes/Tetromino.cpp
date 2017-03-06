@@ -12,3 +12,9 @@ Tetromino::Tetromino()
     }
 }
 
+Tetromino* Tetromino::random()
+{
+    Tetromino* generated = new Tetromino();
+
+    return generated;
+}

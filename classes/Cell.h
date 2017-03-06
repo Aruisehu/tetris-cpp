@@ -11,11 +11,11 @@ class Cell
         void fill();
         void empty(); //Could use a setter but seems clearer
         void show();
+        bool vacant;
 
     private:
         int x;
         int y;
-        bool vacant;
 };
 
 #endif
