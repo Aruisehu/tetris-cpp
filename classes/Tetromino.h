@@ -12,10 +12,6 @@ class Tetromino
 
   private:
     Cell* cases;
-
-    //Position of the tetromino
-    int x;
-    int y;
 };
 
 #endif
