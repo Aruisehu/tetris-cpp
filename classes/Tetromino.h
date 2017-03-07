@@ -7,7 +7,7 @@ class Tetromino
 {
     public:
         Tetromino();
-        void rotate();
+        void rotate(const char* orientation);
         void fall(const int& fall_rate);
         void move(const int& dir);
         static Tetromino* random();

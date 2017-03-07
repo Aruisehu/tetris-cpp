@@ -23,12 +23,13 @@ Game::Game()
 
 void Game::play()
 {
+    int ch;
     setlocale(LC_ALL, "");
 
     initscr(); // Initialize screen
 
-    field = newwin(26, 24, 0, 0);
-    info = newwin(10, 20, 3, 28);
+    field = newwin(40, 24, 0, 0);
+    info = newwin(20, 40, 3, 28);
 
     cbreak(); // Disable input buffering
     noecho(); // Disable automatic encoding
@@ -41,23 +42,31 @@ void Game::play()
     while (playing)
     {
         turn = true;
-        Game::next_tetromino(); // Charge next tetromino
-        Game::generate(); // Generate next tetromino
+        Game::next_tetromino(); // Charge next tetromino and generate the next one
 
-        curs_set(0);
+        curs_set(0); // Remove cursor since it's a game
 
-        Game::show();
-
-        wrefresh(field); // Refresh field
-        wrefresh(info); // Refresh info
+        Game::show(); // Display playfield
 
         while(turn)
         {
-            // Fetch input data and turn the block
-            // ( left arrow: -90°, right arrow: +90°, bottom arrow: speed multiplyer )
+            Game::show();
 
-            // Wait for tic then make the block fall
-
+            int ch = getch();
+            switch (ch) {
+                case 'H': /* user pressed key 'H' or 'h' */
+                case 'h':
+                    Game::help();
+                    break;
+                case KEY_LEFT:
+                    current -> rotate("left"); // +90°
+                    break;
+                case KEY_RIGHT:
+                    current -> rotate("right"); // -90°
+                    break;
+                case KEY_DOWN:
+                    break;
+            }
         }
     }
 
@@ -66,6 +75,10 @@ void Game::play()
 
 void Game::show()
 {
+    // Reset terminal screen
+    wclear( field );
+    wclear( info );
+
     // FIELD
     wprintw( field, "      SUPTETRIS\n\n" );
     for(int i = 0; i < 22; i++)
@@ -109,8 +122,65 @@ void Game::show()
     s = "Next:\n\n";
     wprintw( info, s.c_str() );
 
-    
+    wrefresh(field); // Refresh field
+    wrefresh(info); // Refresh info
+}
 
+void Game::help() {
+    bool help = true;
+
+    int ch;
+    while(help)
+    {
+        wclear( field );
+        wclear( info );
+
+        // Display help
+        wprintw( field, "      HELP\n\n");
+        wprintw( field, "tetromino L\n");
+        wprintw( field, "  \u2588\u2588\n");
+        wprintw( field, "  \u2588\u2588\n");
+        wprintw( field, "  \u2588\u2588\u2588\u2588\n\n");
+        wprintw( field, "tetromino J\n");
+        wprintw( field, "    \u2588\u2588\n");
+        wprintw( field, "    \u2588\u2588\n");
+        wprintw( field, "  \u2588\u2588\u2588\u2588\n\n");
+        wprintw( field, "tetromino O\n");
+        wprintw( field, "  \u2588\u2588\u2588\u2588\n");
+        wprintw( field, "  \u2588\u2588\u2588\u2588\n\n");
+        wprintw( field, "tetromino S\n");
+        wprintw( field, "  \u2588\u2588\n");
+        wprintw( field, "  \u2588\u2588\u2588\u2588\n");
+        wprintw( field, "    \u2588\u2588\n\n");
+        wprintw( field, "tetromino Z\n");
+        wprintw( field, "    \u2588\u2588\n");
+        wprintw( field, "  \u2588\u2588\u2588\u2588\n");
+        wprintw( field, "  \u2588\u2588\n\n");
+        wprintw( field, "tetromino I\n");
+        wprintw( field, "  \u2588\u2588\n");
+        wprintw( field, "  \u2588\u2588\n");
+        wprintw( field, "  \u2588\u2588\n");
+        wprintw( field, "  \u2588\u2588\n\n");
+        wprintw( field, "tetromino T\n");
+        wprintw( field, "  \u2588\u2588\u2588\u2588\u2588\u2588\n");
+        wprintw( field, "    \u2588\u2588\n");
+
+        wprintw( info, "Tetris is a game where you create lines of block using tetrominos.\n");
+        wprintw( info, "Use the left arrow and right arrow keys\nto rotate the falling tetromino.\n\n");
+        wprintw( info, "The score is incremented by 10 for each completed lines\n");
+        wprintw( info, "Each completed lines disapear.\n\n");
+        wprintw( info, "If the placed tetrominos touch the top\nof the playfield it's the end.\n\n");
+        wprintw( info, "Push any key to continue playing");
+
+        wrefresh( field );
+        wrefresh( info );
+
+        ch = getch();
+        if (ch != ERR)
+        {
+            help = false;
+        }
+    }
 }
 
 bool Game::line_filled(const int& row)

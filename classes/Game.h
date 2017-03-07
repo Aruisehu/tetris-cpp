@@ -15,6 +15,7 @@ class Game
         void empty_lines();
         void generate(); // Generate next Tetromino
         void next_tetromino(); // Put next tetromino in current
+        void help(); // Display help
 
     private:
         void drop(const int& row); //Use to make the line fall after a line is completed. To use in empty_line()
