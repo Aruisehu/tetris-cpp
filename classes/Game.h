@@ -10,20 +10,23 @@ class Game
 {
     public:
         Game();
-        static void play();
+        void play();
         void show();
-        bool line_filled(const int& row);
-        void empty_line(const int& row);
         void empty_lines();
         void generate(); // Generate next Tetromino
         void next_tetromino(); // Put next tetromino in current
 
     private:
         void drop(const int& row); //Use to make the line fall after a line is completed. To use in empty_line()
-        int score;
+        bool line_filled(const int& row);
+        void empty_line(const int& row);
+        int score, level;
         Cell*** cases;
         Tetromino* current;
         Tetromino* next;
+
+        WINDOW* field;
+        WINDOW* info;
 
 };
 

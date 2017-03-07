@@ -17,17 +17,99 @@ Game::Game()
         }
     }
 
-    Game::generate();
+    Game::generate(); // Prepare the first tetromino
 }
 
 
 void Game::play()
 {
+    setlocale(LC_ALL, "");
 
+    initscr(); // Initialize screen
+
+    field = newwin(26, 24, 0, 0);
+    info = newwin(10, 20, 3, 28);
+
+    cbreak(); // Disable input buffering
+    noecho(); // Disable automatic encoding
+    nodelay(stdscr, TRUE); // Set input as non blocking
+    keypad(stdscr, TRUE); // Capture special keystrokes
+
+    bool playing = true;
+    bool turn = true;
+
+    while (playing)
+    {
+        turn = true;
+        Game::next_tetromino(); // Charge next tetromino
+        Game::generate(); // Generate next tetromino
+
+        curs_set(0);
+
+        Game::show();
+
+        wrefresh(field); // Refresh field
+        wrefresh(info); // Refresh info
+
+        while(turn)
+        {
+            // Fetch input data and turn the block
+            // ( left arrow: -90°, right arrow: +90°, bottom arrow: speed multiplyer )
+
+            // Wait for tic then make the block fall
+
+        }
+    }
+
+    endwin(); // Reset terminal
 }
 
 void Game::show()
 {
+    // FIELD
+    wprintw( field, "      SUPTETRIS\n\n" );
+    for(int i = 0; i < 22; i++)
+    {
+        wprintw( field, "\u2588");
+    }
+
+    wprintw( field, "\n" );
+
+    for(int i = 0; i < ROWS; i++)
+    {
+        wprintw( field, "\u2588");
+
+        for(int j = 0; j < COLUMNS; j++)
+        {
+            if (cases[i][j] -> is_empty() )
+            {
+                wprintw( field,"  ");
+            }
+            else
+            {
+                wprintw( field,"\u2588\u2588");
+            }
+        }
+
+        wprintw( field,"\u2588\n");
+    }
+
+    for(int i = 0; i < 22; i++)
+    {
+        wprintw( field, "\u2588");
+    }
+
+    // INFO
+    std::string s = "Score: " + std::to_string(score) + "\n";
+    wprintw( info, s.c_str() );
+
+    s = "Level: " + std::to_string(level) + "\n\n";
+    wprintw( info, s.c_str() );
+
+    s = "Next:\n\n";
+    wprintw( info, s.c_str() );
+
+    
 
 }
 

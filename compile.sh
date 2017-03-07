@@ -8,5 +8,5 @@ for (( i=0;i<$elements;i++)); do
     listfiles="$listfiles classes/${files[${i}]}"
 done
 
-command="$listfiles main.cpp -lncurses -Wmultichar -o tetris"
+command="$listfiles main.cpp -lncursesw -Wmultichar -o tetris"
 eval $command
