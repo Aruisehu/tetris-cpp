@@ -1,5 +1,8 @@
 #include <iostream>
 #include <ncurses.h>
+#include <cstdio>
+#include <ctime>
+#include <string>
 #include "Game.h"
 
 using namespace std;
@@ -20,7 +23,6 @@ Game::Game()
     Game::generate(); // Prepare the first tetromino
 }
 
-
 void Game::play()
 {
     int ch;
@@ -35,18 +37,21 @@ void Game::play()
     noecho(); // Disable automatic encoding
     nodelay(stdscr, TRUE); // Set input as non blocking
     keypad(stdscr, TRUE); // Capture special keystrokes
+    curs_set(0); // Remove cursor since it's a game
 
     bool playing = true;
     bool turn = true;
 
+    double time_per_turn = 1000;
+    double modifier = 1.1;
+
+    Game::next_tetromino(); // Charge next tetromino and generate the next one
+
     while (playing)
     {
         turn = true;
-        Game::next_tetromino(); // Charge next tetromino and generate the next one
 
-        curs_set(0); // Remove cursor since it's a game
-
-        Game::show(); // Display playfield
+        clock_t start_time = clock(); // Time at the start of the turn
 
         while(turn)
         {
@@ -59,15 +64,42 @@ void Game::play()
                     Game::help();
                     break;
                 case KEY_LEFT:
-                    current -> rotate("left"); // +90°
+                    //current -> rotate("left"); // +90°
                     break;
                 case KEY_RIGHT:
-                    current -> rotate("right"); // -90°
+                    //current -> rotate("right"); // -90°
                     break;
                 case KEY_DOWN:
                     break;
             }
+
+            clock_t current_time = clock(); // Actual time
+
+            // Difference between actual time and the start of the turn
+            double time_diff = (double) ( current_time - start_time ) / CLOCKS_PER_SEC * 1000.0;
+
+            if (time_diff >= time_per_turn) // if the turn is finished
+            {
+                turn = false; // end turn
+            }
         }
+
+        //TODO IF COLLISION DO WHAT'S COMMING NEXT
+
+        // Change tetromino
+        Game::next_tetromino();
+
+        // increase speed for next level
+        time_per_turn = time_per_turn / modifier; // I'm a monster...
+        if (time_per_turn < 100)
+        {
+            time_per_turn = 100; // ... a soft one
+        }
+
+        // Increment level by 1
+        level++;
+
+        //END TODO
     }
 
     endwin(); // Reset terminal

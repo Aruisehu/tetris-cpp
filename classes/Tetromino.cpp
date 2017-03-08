@@ -19,7 +19,7 @@ Tetromino* Tetromino::random()
     return generated;
 }
 
-void Tetromino::rotate(const int& orientation)
-{
-    
-}
+//void Tetromino::rotate(const int& orientation)
+//{
+//
+//}
