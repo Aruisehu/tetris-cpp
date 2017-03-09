@@ -11,6 +11,7 @@ class Tetromino
     public:
         Tetromino(Game& g);
         virtual bool rotate(const char& orientation);
+        virtual void put_on_grid();
         bool fall(const int& fall_rate);
         bool move(const int& dir);
         static Tetromino* random(Game& g);

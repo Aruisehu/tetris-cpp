@@ -7,6 +7,7 @@ class TetrominoJ : Tetromino
     public:
         TetrominoJ(Game& g);
         bool rotate(const char& orientation);
+        void put_on_grid();
 };
 
 #endif  

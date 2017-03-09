@@ -9,3 +9,8 @@ bool TetrominoS::rotate(const char& orientation)
 {
     return true;
 }
+
+void TetrominoS::put_on_grid()
+{
+}
+

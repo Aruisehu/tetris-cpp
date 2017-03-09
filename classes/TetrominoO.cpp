@@ -10,3 +10,6 @@ bool TetrominoO::rotate(const char& orientation)
     return true; // We always can rotate a square and the result is ... itself. So no transformation needed
 }
 
+void TetrominoO::put_on_grid()
+{
+}
