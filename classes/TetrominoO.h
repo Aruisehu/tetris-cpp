@@ -2,7 +2,7 @@
 #define TETROMINO_O_H
 #include "Tetromino.h"
 
-class TetrominoO : Tetromino
+class TetrominoO : public Tetromino
 {
     public:
         TetrominoO(Game& g);

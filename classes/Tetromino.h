@@ -3,6 +3,8 @@
 
 #include "Cell.h"
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 class Game; //Here's for you little compiler
 
@@ -20,5 +22,13 @@ class Tetromino
         Cell** cases;
         Game* game;
 };
+
+#include "TetrominoI.h"
+#include "TetrominoJ.h"
+#include "TetrominoL.h"
+#include "TetrominoO.h"
+#include "TetrominoS.h"
+#include "TetrominoT.h"
+#include "TetrominoZ.h"
 
 #endif
