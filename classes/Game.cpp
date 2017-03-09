@@ -25,8 +25,8 @@ Game::Game()
 
 void Game::play()
 {
-    int ch;
-    setlocale(LC_ALL, "");
+    setlocale(LC_ALL, ""); // Permit the use of special unicode characters
+    //need to be called before initscr();
 
     initscr(); // Initialize screen
 
@@ -80,29 +80,30 @@ void Game::play()
 
             if (time_diff >= time_per_turn) // if the turn is finished
             {
+                if (!Game::fall()) // If the tetromino cannot fall
+                {
+                    Game::next_tetromino(); //Charge the next one
+                    Game::empty_lines(); // Remove completed lines, increase score for each and drop other lines
+
+                    if (Game::lose())
+                    {
+                        playing = false;
+                    }
+
+                    if ( score / 100 > level  )
+                    {
+                        // increase speed for next level
+                        if ( time_per_turn > 200 ) // Speed and level cap
+                        {
+                            time_per_turn = time_per_turn / modifier;
+                            level++; // Increment level by 1
+                        }
+                    }
+                }
+
                 turn = false; // end turn
             }
         }
-
-        //TODO IF COLLISION DO WHAT'S COMMING NEXT
-
-        // Change tetromino
-        Game::next_tetromino();
-
-        //END TODO
-
-        //TODO IF 10 LINES WERE COMPLETED FO WHAT'S COMING NEXT
-
-        // increase speed for next level
-        if (time_per_turn > 200) // Speed cap
-        {
-            time_per_turn = time_per_turn / modifier;
-        }
-
-        // Increment level by 1
-        level++;
-
-        //END TODO
     }
 
     endwin(); // Reset terminal
@@ -267,6 +268,17 @@ void Game::drop(const int& row)
     {
         cases[0][j] -> empty();
     }
+}
+
+bool Game::lose()
+{
+    return false; // TODO
+}
+
+bool Game::fall()
+{
+    // Make current fall if there is no obstacles
+    return true; // TODO
 }
 
 void Game::generate()
