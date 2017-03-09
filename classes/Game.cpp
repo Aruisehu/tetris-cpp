@@ -4,8 +4,11 @@
 #include <ctime>
 #include <string>
 #include "Game.h"
+#include <unistd.h>
 
 using namespace std;
+
+unsigned int microseconds = 16000;
 
 Game::Game()
 {
@@ -30,7 +33,7 @@ void Game::play()
 
     initscr(); // Initialize screen
 
-    field = newwin(40, 24, 0, 0);
+    field = newwin(40, 26, 0, 0);
     info = newwin(20, 40, 3, 28);
 
     cbreak(); // Disable input buffering
@@ -103,6 +106,8 @@ void Game::play()
 
                 turn = false; // end turn
             }
+
+            usleep(microseconds);
         }
     }
 
@@ -117,7 +122,7 @@ void Game::show()
 
     // FIELD
     wprintw( field, "      SUPTETRIS\n\n" );
-    for(int i = 0; i < 22; i++)
+    for(int i = 0; i < 24; i++)
     {
         wprintw( field, "\u2588");
     }
@@ -126,7 +131,7 @@ void Game::show()
 
     for(int i = 0; i < ROWS; i++)
     {
-        wprintw( field, "\u2588");
+        wprintw( field, "\u2588\u2588");
 
         for(int j = 0; j < COLUMNS; j++)
         {
@@ -140,10 +145,10 @@ void Game::show()
             }
         }
 
-        wprintw( field,"\u2588\n");
+        wprintw( field,"\u2588\u2588\n");
     }
 
-    for(int i = 0; i < 22; i++)
+    for(int i = 0; i < 24; i++)
     {
         wprintw( field, "\u2588");
     }
@@ -216,6 +221,8 @@ void Game::help() {
         {
             help = false;
         }
+
+        usleep(microseconds);
     }
 }
 
