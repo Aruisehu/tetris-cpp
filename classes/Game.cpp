@@ -89,11 +89,14 @@ void Game::play()
         // Change tetromino
         Game::next_tetromino();
 
+        //END TODO
+
+        //TODO IF 10 LINES WERE COMPLETED FO WHAT'S COMING NEXT
+
         // increase speed for next level
-        time_per_turn = time_per_turn / modifier; // I'm a monster...
-        if (time_per_turn < 100)
+        if (time_per_turn > 200) // Speed cap
         {
-            time_per_turn = 100; // ... a soft one
+            time_per_turn = time_per_turn / modifier;
         }
 
         // Increment level by 1
