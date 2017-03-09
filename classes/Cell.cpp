@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Cell.h"
 
 Cell::Cell(const int& i, const int& j) :

@@ -1,8 +1,3 @@
-#include <iostream>
-#include <ncurses.h>
-#include <cstdio>
-#include <ctime>
-#include <string>
 #include "Game.h"
 #include <unistd.h>
 
@@ -290,7 +285,7 @@ bool Game::fall()
 
 void Game::generate()
 {
-    next = Tetromino::random();
+    next = Tetromino::random(*this);
 }
 
 void Game::next_tetromino() {

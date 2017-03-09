@@ -1,7 +1,13 @@
 #ifndef GAME_H
 #define GAME_H
-#include "Cell.h"
+#include <iostream>
+#include <ncurses.h>
+#include <cstdio>
+#include <ctime>
+#include <string>
 #include "Tetromino.h"
+#include "Cell.h"
+
 //Define preprocessor constants can be used in Game.cpp
 #define ROWS 22
 #define COLUMNS 10

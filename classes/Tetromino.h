@@ -2,18 +2,22 @@
 #define TETROMINO_H
 
 #include "Cell.h"
+#include <iostream>
+
+class Game; //Here's for you little compiler
 
 class Tetromino
 {
     public:
-        Tetromino();
-        void rotate(const char* orientation);
-        void fall(const int& fall_rate);
-        void move(const int& dir);
-        static Tetromino* random();
+        Tetromino(Game& g);
+        virtual bool rotate(const char& orientation);
+        bool fall(const int& fall_rate);
+        bool move(const int& dir);
+        static Tetromino* random(Game& g);
 
-    private:
-        Cell* cases;
+    protected:
+        Cell** cases;
+        Game* game;
 };
 
 #endif

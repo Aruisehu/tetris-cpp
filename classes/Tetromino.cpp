@@ -1,25 +1,18 @@
-#include <iostream>
 #include "Tetromino.h"
-#include "Cell.h"
 
-Tetromino::Tetromino()
+Tetromino::Tetromino(Game& g)
 {
-    cases = new Cell[4] { {0, 0}, {0, 0}, {0, 0}, {0, 0}};
-    int i;
-    for (i = 0; i < 4; i++)
-    {
-        cases[i].fill();
-    }
+    game = &g;
 }
 
-Tetromino* Tetromino::random()
+Tetromino* Tetromino::random(Game& g)
 {
-    Tetromino* generated = new Tetromino();
+    Tetromino* generated = new Tetromino(g);
 
     return generated;
 }
 
-//void Tetromino::rotate(const int& orientation)
-//{
-//
-//}
+bool Tetromino::rotate(const char& orientation)
+{
+    return true;
+}
