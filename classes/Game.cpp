@@ -74,10 +74,10 @@ void Game::play()
                     Game::help();
                     break;
                 case KEY_LEFT:
-                    //current -> rotate("left"); // +90°
+                    current -> rotate('L'); // +90°
                     break;
                 case KEY_RIGHT:
-                    //current -> rotate("right"); // -90°
+                    current -> rotate('R'); // -90°
                     break;
                 case KEY_DOWN:
                     break;
