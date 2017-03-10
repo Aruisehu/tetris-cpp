@@ -24,6 +24,7 @@ class Game
         void help(); // Display help
         bool lose(); // Verify if the player losed
         bool fall(); // Make the tetromino fall if it can and return if it can
+        Cell* get_cell(const int& x, const int& y);
 
     private:
         void drop(const int& row); //Use to make the line fall after a line is completed. To use in empty_line()

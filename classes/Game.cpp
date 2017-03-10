@@ -292,3 +292,8 @@ void Game::next_tetromino() {
     current = next;
     Game::generate();
 }
+
+Cell* Game::get_cell(const int& x, const int& y)
+{
+    return cases[x][y];
+}
