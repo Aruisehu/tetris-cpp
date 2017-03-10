@@ -12,7 +12,7 @@ Tetromino* Tetromino::random(Game& g)
     Tetromino* generated;
     int rng;
     srand(time(NULL));
-    rng = rng % 7;
+    rng = rand() % 7;
 
     switch (rng)
     {

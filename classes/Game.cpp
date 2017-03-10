@@ -1,3 +1,8 @@
+#include <iostream>
+#include <ncurses.h>
+#include <cstdio>
+#include <ctime>
+#include <string>
 #include "Game.h"
 #include <unistd.h>
 
@@ -36,6 +41,12 @@ void Game::play()
     nodelay(stdscr, TRUE); // Set input as non blocking
     keypad(stdscr, TRUE); // Capture special keystrokes
     curs_set(0); // Remove cursor since it's a game
+    start_color();
+
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(2, COLOR_BLUE, COLOR_BLACK);
+    init_pair(3, COLOR_MAGENTA, COLOR_BLACK);
+    init_pair(4, COLOR_CYAN, COLOR_BLACK);
 
     bool playing = true;
     bool turn = true;
@@ -44,6 +55,7 @@ void Game::play()
     double modifier = 1.1;
 
     Game::next_tetromino(); // Charge next tetromino and generate the next one
+    current -> put_on_grid();
 
     while (playing)
     {
@@ -116,8 +128,9 @@ void Game::show()
     wclear( info );
 
     // FIELD
-    wprintw( field, "      SUPTETRIS\n\n" );
-    for(int i = 0; i < 24; i++)
+    wprintw( field, "       SUPTETRIS\n\n" );
+    wattron( field, COLOR_PAIR(4) );
+    for(int i = 0; i < ROWS + 2; i++)
     {
         wprintw( field, "\u2588");
     }
@@ -127,6 +140,8 @@ void Game::show()
     for(int i = 0; i < ROWS; i++)
     {
         wprintw( field, "\u2588\u2588");
+
+        wattroff( field, COLOR_PAIR(4) );
 
         for(int j = 0; j < COLUMNS; j++)
         {
@@ -140,13 +155,20 @@ void Game::show()
             }
         }
 
+
+        wattron( field, COLOR_PAIR(4) );
+
         wprintw( field,"\u2588\u2588\n");
     }
 
-    for(int i = 0; i < 24; i++)
+    wattron( field, COLOR_PAIR(4) );
+
+    for(int i = 0; i < ROWS + 2; i++)
     {
         wprintw( field, "\u2588");
     }
+
+    wattroff( field, COLOR_PAIR(4) );
 
     // INFO
     std::string s = "Score: " + std::to_string(score) + "\n";
