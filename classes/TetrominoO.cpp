@@ -11,13 +11,12 @@ bool TetrominoO::rotate(const char& orientation)
     return true; // We always can rotate a square and the result is ... itself. So no transformation needed
 }
 
-
 bool TetrominoO::put_on_grid()
 {
-    cases[0] = game->get_cell(0, 6);
-    cases[1] = game->get_cell(0, 5);
-    cases[2] = game->get_cell(1, 6);
-    cases[3] = game->get_cell(1, 5);
+    cases[0] = game->get_cell(0, 5);
+    cases[1] = game->get_cell(0, 4);
+    cases[2] = game->get_cell(1, 5);
+    cases[3] = game->get_cell(1, 4);
     
     for (int i = 0; i < 4; i++)
     {
