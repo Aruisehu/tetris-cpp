@@ -52,3 +52,102 @@ bool Tetromino::put_on_grid()
 {
     return false;
 }
+
+bool Tetromino::move(const int& dir)
+{
+    /* 2 possible values for dir
+     * 0: move left
+     * 1: move right */
+
+    //need to make separate loop, these steps must be done one
+    //after an other.
+    for (int i = 0; i < 4; i++)
+    {
+        cases[i] -> empty();
+    }
+    for (int i = 0; i < 4; i++)
+    {
+        int y = cases[i]->get_y();
+        int x = cases[i]->get_x();
+        x = (dir == 0) ? x-1 : x+1;
+        if (x >= 0 && x < COLUMNS)
+        {
+            if (!game->get_cell(x, y)->is_empty())
+            {
+                //Fill back the cell
+                for (int i = 0; i < 4; i++)
+                {   
+                    cases[i] -> fill();
+                }
+                return false;
+            }
+        }
+        else 
+        {
+            //Stuck by the wall
+            //Fill back the cell
+            for (int i = 0; i < 4; i++)
+            {   
+                cases[i] -> fill();
+            }
+            return false;
+        }
+    }
+    for (int i = 0; i < 4; i++)
+    {
+        int y = cases[i]->get_y();
+        int x = cases[i]->get_x();
+        x = (dir == 0) ? x-1 : x+1;
+        cases[i] = game->get_cell(x, y);
+        cases[i] -> fill();
+    }
+    return true;
+}
+
+bool Tetromino::fall()
+{
+    /* Return if the Tetromino can fall or not
+     *(and do it if it can)*/
+
+    for (int i = 0; i < 4; i++)
+    {
+        cases[i] -> empty();
+    }
+    for (int i = 0; i < 4; i++)
+    {
+        int y = cases[i]->get_y() + 1;
+        int x = cases[i]->get_x();
+        if (y < ROWS)
+        {
+            if (!game->get_cell(x, y)->is_empty())
+            {
+                //Fill back the cell
+                for (int i = 0; i < 4; i++)
+                {   
+                    cases[i] -> fill();
+                }
+                return false;
+            }
+        }
+        else 
+        {
+            //Stuck by the wall
+            //Fill back the cell
+            for (int i = 0; i < 4; i++)
+            {   
+                cases[i] -> fill();
+            }
+            return false;
+        }
+    }
+    for (int i = 0; i < 4; i++)
+    {
+        int y = cases[i]->get_y() + 1;
+        int x = cases[i]->get_x();
+        cases[i] = game->get_cell(x, y);
+        cases[i] -> fill();
+    }
+    return true;
+
+}
+
