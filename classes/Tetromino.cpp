@@ -1,4 +1,5 @@
 #include "Tetromino.h"
+#include "Game.h"
 using namespace std;
 
 Tetromino::Tetromino(Game& g)
@@ -47,6 +48,7 @@ bool Tetromino::rotate(const char& orientation)
     return true;
 }
 
-void Tetromino::put_on_grid()
+bool Tetromino::put_on_grid()
 {
+    return false;
 }
