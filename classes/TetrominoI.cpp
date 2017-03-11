@@ -67,10 +67,10 @@ bool TetrominoI::rotate(const char& orientation)
 
 bool TetrominoI::put_on_grid()
 {
-    /*for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++)
     {
         cases[i]->empty();
-    }*/
+    }
     cases[0] = game->get_cell(1, 5);
     cases[1] = game->get_cell(0, 5);
     cases[2] = game->get_cell(2, 5);

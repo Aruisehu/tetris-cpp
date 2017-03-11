@@ -67,10 +67,10 @@ bool TetrominoZ::rotate(const char& orientation)
 
 bool TetrominoZ::put_on_grid()
 {
-    /*for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++)
     {
         cases[i]->empty();
-    }*/
+    }
     cases[0] = game->get_cell(0, 5);
     cases[1] = game->get_cell(0, 4);
     cases[2] = game->get_cell(1, 5);
@@ -92,7 +92,7 @@ void TetrominoZ::put_on_next(Cell* cells[4][4])
     cases[0] = cells[1][1];
     cases[1] = cells[1][0];
     cases[2] = cells[2][1];
-    cases[3] = cells[2][3];
+    cases[3] = cells[2][2];
     for (int i = 0; i<4; i++)
     {
         cases[i] -> fill();

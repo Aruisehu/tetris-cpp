@@ -33,6 +33,7 @@ Game::Game()
     }
 
     Game::generate(); // Prepare the first tetromino
+    next -> put_on_next(cases_next); //Try to prevent segfault
 }
 
 void Game::play()
@@ -67,6 +68,7 @@ void Game::play()
 
     Game::next_tetromino(); // Charge next tetromino and generate the next one
     current -> put_on_grid();
+    next -> put_on_next(cases_next);
 
     while (playing)
     {
@@ -352,8 +354,10 @@ void Game::drop(const int& row)
 bool Game::lose()
 {
     Game::next_tetromino();
+    //Must put current on the grid before put next on info window
+    bool result = !current -> put_on_grid();
     next -> put_on_next(cases_next);
-    return !current -> put_on_grid();
+    return result;
 }
 
 bool Game::fall()
