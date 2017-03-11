@@ -13,6 +13,11 @@ bool TetrominoI::rotate(const char& orientation)
     signed int x, y;
     for (int i = 1; i < 4; i++)
     {
+        cases[i] -> empty();
+    }
+
+    for (int i = 1; i < 4; i++)
+    {
         if (orientation == 'L')
         {
             x = cases[i]->get_x() - cases[0]->get_x();
@@ -27,6 +32,10 @@ bool TetrominoI::rotate(const char& orientation)
             x = cases[0]->get_x() + mem;
             if (x < 0 || x > ROWS - 1 || y < 0 || y > COLUMNS - 1)
             {
+                for (int i = 1; i < 4; i++)
+                {
+                    cases[i] -> fill();
+                }
                 return false;
             }
             new_cases[i] = game->get_cell(x, y);
@@ -45,12 +54,20 @@ bool TetrominoI::rotate(const char& orientation)
             x = cases[0]->get_x() + mem;
             if (x < 0 || x > ROWS - 1 || y < 0 || y > COLUMNS - 1)
             {
+                for (int i = 1; i < 4; i++)
+                {
+                    cases[i] -> fill();
+                }
                 return false;
             }
             new_cases[i] = game->get_cell(x, y);
         }
         if (!new_cases[i]->is_empty())
         {
+            for (int i = 1; i < 4; i++)
+            {
+                cases[i] -> fill();
+            }
             return false;
         }
     }
