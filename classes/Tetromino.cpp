@@ -39,7 +39,6 @@ Tetromino* Tetromino::random(Game& g)
             break;
     }
 
-
     return generated;
 }
 

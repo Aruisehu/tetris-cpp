@@ -32,6 +32,7 @@ class Game
         void empty_line(const int& row);
         int score, level;
         Cell*** cases;
+        Cell*** cases_next;
         Tetromino* current;
         Tetromino* next;
 

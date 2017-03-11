@@ -24,6 +24,16 @@ Game::Game()
         }
     }
 
+    cases_next = new Cell**[4];
+    for(int i = 0; i < 4; i++)
+    {
+        cases_next[i] = new Cell*[4];
+        for(int j = 0; j < 4; j++)
+        {
+            cases_next[i][j] = new Cell(i, j);
+        }
+    }
+
     Game::generate(); // Prepare the first tetromino
 }
 
@@ -54,8 +64,6 @@ void Game::play()
     bool turn = true;
     bool accelerator = false;
 
-    int time_to_wait = 0;
-
     double time_per_turn = 2000;
     double modifier = 1.1;
 
@@ -78,16 +86,7 @@ void Game::play()
             // Difference between actual time and the start of the turn
             double time_diff = (double) ( current_time - start_time ) / CLOCKS_PER_SEC * 160000.0;
 
-            if (accelerator)
-            {
-                time_to_wait = 20;
-            }
-            else
-            {
-                time_to_wait = time_per_turn;
-            }
-
-            if (time_diff >= time_to_wait) // if the turn is finished
+            if ((time_diff >= time_per_turn) || (accelerator)) // if the turn is finished
             {
                 if (!Game::fall()) // If the tetromino cannot fall
                 {
@@ -112,8 +111,6 @@ void Game::play()
                 turn = false; // end turn
             }
 
-            accelerator = false;
-
             //wprintw( errors, " ");
             //wprintw( errors, std::to_string(current_time).c_str());
             //wprintw( errors, " ");
@@ -124,7 +121,11 @@ void Game::play()
             //wprintw( errors, std::to_string(time_diff).c_str());
             //wrefresh( errors );
 
-            for(int i = 0; i < microseconds; i++) // In order to limit framerate to get 3% cpu usage instead of 100%...
+            int time_to_wait = (accelerator) ? microseconds / 16 : microseconds;
+
+            accelerator = false;
+
+            for(int i = 0; i < time_to_wait; i++) // In order to limit framerate to get 3% cpu usage instead of 100%...
             {
                 usleep(delay);
                 int ch = getch(); // To increase the rate at wich inputs are takens
@@ -134,21 +135,21 @@ void Game::play()
                         Game::help();
                         break;
                     case KEY_LEFT:
-                        current -> rotate('L'); // +90°
+                        current -> move(0); // Left
                         break;
                     case KEY_RIGHT:
-                        current -> rotate('R'); // -90°
+                        current -> move(1); // Right
                         break;
                     case 'q':
                     case 'Q':
-                        current -> move(0); // Left
+                        current -> rotate('L'); // +90°
                         break;
                     case 'd':
                     case 'D':
-                        current -> move(1); // Right
+                        current -> rotate('R'); // -90°
                         break;
                     case KEY_DOWN:
-                        accelerator = true;
+                        current -> fall();
                         break;
                 }
             }
@@ -218,6 +219,22 @@ void Game::show()
     s = "Next:\n\n";
     wprintw( info, s.c_str() );
 
+    for(int i = 0; i < ROWS; i++)
+    {
+        for(int j = 0; j < COLUMNS; j++)
+        {
+            if (cases_next[i][j] -> is_empty() )
+            {
+                wprintw( info,"  ");
+            }
+            else
+            {
+                wprintw( field,"\u2588\u2588");
+            }
+        }
+        wprintw( field, "\n");
+    }
+
     wrefresh(field); // Refresh field
     wrefresh(info); // Refresh info
 }
@@ -271,13 +288,15 @@ void Game::help() {
         wrefresh( field );
         wrefresh( info );
 
-        ch = getch();
-        if (ch != ERR)
+        for(int i = 0; i < 160; i++) // In order to limit framerate to get 3% cpu usage instead of 100%...
         {
-            help = false;
+            ch = getch();
+            if (ch != ERR)
+            {
+                help = false;
+            }
+            usleep(1000);
         }
-
-        usleep(microseconds);
     }
 }
 
@@ -335,6 +354,7 @@ void Game::drop(const int& row)
 bool Game::lose()
 {
     Game::next_tetromino();
+    next -> put_on_next(cases_next);
     return !current -> put_on_grid();
 }
 
