@@ -37,6 +37,7 @@ class Game
 
         WINDOW* field;
         WINDOW* info;
+        WINDOW* errors;
 
 };
 

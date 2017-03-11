@@ -8,7 +8,8 @@
 
 using namespace std;
 
-unsigned int microseconds = 16000;
+const unsigned int microseconds = 160; // how much delays to wait for each frame
+const unsigned int delay = 1000; // microseconds
 
 Game::Game()
 {
@@ -35,13 +36,14 @@ void Game::play()
 
     field = newwin(40, 26, 0, 0);
     info = newwin(20, 40, 3, 28);
+    errors = newwin(20, 40, 3, 48);
 
     cbreak(); // Disable input buffering
     noecho(); // Disable automatic encoding
     nodelay(stdscr, TRUE); // Set input as non blocking
     keypad(stdscr, TRUE); // Capture special keystrokes
     curs_set(0); // Remove cursor since it's a game
-    start_color();
+    start_color(); // Start ncurses color engine
 
     init_pair(1, COLOR_RED, COLOR_BLACK);
     init_pair(2, COLOR_BLUE, COLOR_BLACK);
@@ -50,8 +52,11 @@ void Game::play()
 
     bool playing = true;
     bool turn = true;
+    bool accelerator = false;
 
-    double time_per_turn = 1000;
+    int time_to_wait = 0;
+
+    double time_per_turn = 2000;
     double modifier = 1.1;
 
     Game::next_tetromino(); // Charge next tetromino and generate the next one
@@ -67,32 +72,25 @@ void Game::play()
         {
             Game::show();
 
-            int ch = getch();
-            switch (ch) {
-                case 'H': /* user pressed key 'H' or 'h' */
-                case 'h':
-                    Game::help();
-                    break;
-                case KEY_LEFT:
-                    current -> rotate('L'); // +90°
-                    break;
-                case KEY_RIGHT:
-                    current -> rotate('R'); // -90°
-                    break;
-                case KEY_DOWN:
-                    break;
-            }
-
-            clock_t current_time = clock(); // Actual time
+            // Actual time
+            clock_t current_time = clock();
 
             // Difference between actual time and the start of the turn
-            double time_diff = (double) ( current_time - start_time ) / CLOCKS_PER_SEC * 1000.0;
+            double time_diff = (double) ( current_time - start_time ) / CLOCKS_PER_SEC * 160000.0;
 
-            if (time_diff >= time_per_turn) // if the turn is finished
+            if (accelerator)
+            {
+                time_to_wait = 20;
+            }
+            else
+            {
+                time_to_wait = time_per_turn;
+            }
+
+            if (time_diff >= time_to_wait) // if the turn is finished
             {
                 if (!Game::fall()) // If the tetromino cannot fall
                 {
-                    Game::next_tetromino(); //Charge the next one
                     Game::empty_lines(); // Remove completed lines, increase score for each and drop other lines
 
                     if (Game::lose())
@@ -103,7 +101,7 @@ void Game::play()
                     if ( score / 100 > level  )
                     {
                         // increase speed for next level
-                        if ( time_per_turn > 200 ) // Speed and level cap
+                        if ( time_per_turn > 100 ) // Speed and level cap
                         {
                             time_per_turn = time_per_turn / modifier;
                             level++; // Increment level by 1
@@ -114,7 +112,46 @@ void Game::play()
                 turn = false; // end turn
             }
 
-            usleep(microseconds);
+            accelerator = false;
+
+            //wprintw( errors, " ");
+            //wprintw( errors, std::to_string(current_time).c_str());
+            //wprintw( errors, " ");
+            //wprintw( errors, std::to_string(time_per_turn).c_str());
+            //wprintw( errors, " ");
+            //wprintw( errors, std::to_string(start_time).c_str());
+            //wprintw( errors, " ");
+            //wprintw( errors, std::to_string(time_diff).c_str());
+            //wrefresh( errors );
+
+            for(int i = 0; i < microseconds; i++) // In order to limit framerate to get 3% cpu usage instead of 100%...
+            {
+                usleep(delay);
+                int ch = getch(); // To increase the rate at wich inputs are takens
+                switch (ch) {
+                    case 'H': /* user pressed key 'H' or 'h' */
+                    case 'h':
+                        Game::help();
+                        break;
+                    case KEY_LEFT:
+                        current -> rotate('L'); // +90°
+                        break;
+                    case KEY_RIGHT:
+                        current -> rotate('R'); // -90°
+                        break;
+                    case 'q':
+                    case 'Q':
+                        current -> move(0); // Left
+                        break;
+                    case 'd':
+                    case 'D':
+                        current -> move(1); // Right
+                        break;
+                    case KEY_DOWN:
+                        accelerator = true;
+                        break;
+                }
+            }
         }
     }
 
@@ -126,6 +163,7 @@ void Game::show()
     // Reset terminal screen
     wclear( field );
     wclear( info );
+    //wclear( errors );
 
     // FIELD
     wprintw( field, "       SUPTETRIS\n\n" );
@@ -296,13 +334,14 @@ void Game::drop(const int& row)
 
 bool Game::lose()
 {
-    return false; // TODO
+    Game::next_tetromino();
+    return !current -> put_on_grid();
 }
 
 bool Game::fall()
 {
     // Make current fall if there is no obstacles
-    return true; // TODO
+    return current -> fall();
 }
 
 void Game::generate()
