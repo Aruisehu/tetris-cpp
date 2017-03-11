@@ -67,6 +67,10 @@ bool TetrominoS::rotate(const char& orientation)
 
 bool TetrominoS::put_on_grid()
 {
+    /*for (int i = 0; i < 4; i++)
+    {
+        cases[i]->empty();
+    }*/
     cases[0] = game->get_cell(0, 5);
     cases[1] = game->get_cell(0, 6);
     cases[2] = game->get_cell(1, 5);
@@ -81,4 +85,16 @@ bool TetrominoS::put_on_grid()
         cases[i]->fill();
     }   
     return true;
+}
+
+void TetrominoS::put_on_next(Cell* cells[4][4])
+{
+    cases[0] = cells[1][3];
+    cases[1] = cells[1][2];
+    cases[2] = cells[2][2];
+    cases[3] = cells[2][1];
+    for (int i = 0; i<4; i++)
+    {
+        cases[i] -> fill();
+    }
 }

@@ -24,10 +24,8 @@ Game::Game()
         }
     }
 
-    cases_next = new Cell**[4];
     for(int i = 0; i < 4; i++)
     {
-        cases_next[i] = new Cell*[4];
         for(int j = 0; j < 4; j++)
         {
             cases_next[i][j] = new Cell(i, j);
@@ -219,9 +217,9 @@ void Game::show()
     s = "Next:\n\n";
     wprintw( info, s.c_str() );
 
-    for(int i = 0; i < ROWS; i++)
+    for(int i = 0; i < 4; i++)
     {
-        for(int j = 0; j < COLUMNS; j++)
+        for(int j = 0; j < 4; j++)
         {
             if (cases_next[i][j] -> is_empty() )
             {
@@ -229,10 +227,10 @@ void Game::show()
             }
             else
             {
-                wprintw( field,"\u2588\u2588");
+                wprintw( info,"\u2588\u2588");
             }
         }
-        wprintw( field, "\n");
+        wprintw( info, "\n");
     }
 
     wrefresh(field); // Refresh field

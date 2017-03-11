@@ -14,6 +14,7 @@ class Tetromino
         Tetromino(Game& g);
         virtual bool rotate(const char& orientation);
         virtual bool put_on_grid();
+        virtual void put_on_next(Cell* cells[4][4]);
         bool fall();
         bool move(const int& dir);
         static Tetromino* random(Game& g);

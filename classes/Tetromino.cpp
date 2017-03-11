@@ -52,6 +52,8 @@ bool Tetromino::put_on_grid()
     return false;
 }
 
+void Tetromino::put_on_next(Cell* cells[4][4]) {}
+
 bool Tetromino::move(const int& dir)
 {
     /* 2 possible values for dir

@@ -8,6 +8,7 @@ class TetrominoO : public Tetromino
         TetrominoO(Game& g);
         bool rotate(char const& orientation);
         bool put_on_grid();
+        void put_on_next(Cell* cells[4][4]);
 };
 
 #endif  
