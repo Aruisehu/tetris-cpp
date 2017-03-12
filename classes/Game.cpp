@@ -91,6 +91,7 @@ void Game::play()
                 if (!Game::fall()) // If the tetromino cannot fall
                 {
                     Game::empty_lines(); // Remove completed lines, increase score for each and drop other lines
+                    accelerator = false; //Reset accelerator when we change the tetromino
 
                     if (Game::lose())
                     {
