@@ -21,10 +21,10 @@ bool TetrominoZ::rotate(const char& orientation)
         {
             x = cases[i]->get_x() - cases[0]->get_x();
             y = cases[i]->get_y() - cases[0]->get_y();
-            int x_abs = x < 0 ? -x : x;
-            if (x_abs > y)
+            int y_abs = y < 0 ? -y : y;
+            if (y_abs >= x)
             {
-                x = -x;
+                y = -y;
             }
             signed int mem  = y;
             y = cases[0]->get_y() + x;
@@ -43,10 +43,10 @@ bool TetrominoZ::rotate(const char& orientation)
         {
             x = cases[i]->get_x() - cases[0]->get_x();
             y = cases[i]->get_y() - cases[0]->get_y();
-            int y_abs = y < 0 ? -y: y;
-            if (y_abs > x)
+            int x_abs = x < 0 ? -x: x;
+            if (x_abs >= y)
             {
-                y = -y;
+                x = -x;
             }
             signed int mem  = y;
             y = cases[0]->get_y() + x;
@@ -70,9 +70,8 @@ bool TetrominoZ::rotate(const char& orientation)
             return false;
         }
     }
-    for (int i = 1; i < 4; i++)
+    for (int i = 0; i < 4; i++)
     {
-        //cases[0] is already new_cases[0]
         cases[i] -> empty();
         cases[i] = new_cases[i];
         cases[i] -> fill();
